@@ -2,7 +2,7 @@ const tami4Api = require('./tami4/api')
 const syncHomeKitCache = require('./tami4/syncHomeKitCache')
 const path = require('path')
 const storage = require('node-persist')
-const PLUGIN_NAME = 'homebridge-tami4'
+const PLUGIN_NAME = require('./package.json').name
 const PLATFORM_NAME = 'Tami4'
 
 module.exports = (api) => {

@@ -1,10 +1,12 @@
 <img src="branding/tami4_homebridge.jpg" width="500px">
 
 
-# homebridge-tami4
+# @timson81/homebridge-tami4
 
-[![Downloads](https://img.shields.io/npm/dt/homebridge-tami4.svg?color=critical)](https://www.npmjs.com/package/homebridge-tami4)
-[![Version](https://img.shields.io/npm/v/homebridge-tami4)](https://www.npmjs.com/package/homebridge-tami4)
+[![Downloads](https://img.shields.io/npm/dt/@timson81/homebridge-tami4.svg?color=critical)](https://www.npmjs.com/package/@timson81/homebridge-tami4)
+[![Version](https://img.shields.io/npm/v/@timson81/homebridge-tami4)](https://www.npmjs.com/package/@timson81/homebridge-tami4)
+
+Maintained fork of [nitaybz/homebridge-tami4](https://github.com/nitaybz/homebridge-tami4), published as `@timson81/homebridge-tami4`.
 
 [Homebridge](https://github.com/nfarina/homebridge) plugin for Tami4 Edge+ device (Water Purifier).
 
@@ -12,15 +14,15 @@
 
 ### Requirements
 
-<img src="https://img.shields.io/badge/node-%3E%3D10.17-brightgreen"> &nbsp;
-<img src="https://img.shields.io/badge/homebridge-%3E%3D0.4.4-brightgreen"> &nbsp;
+Node.js 22.10+ (22.x) or 24.x, and Homebridge 1.8+ (1.x) or 2.x.
+
 <img src="https://img.shields.io/badge/iOS-%3E%3D11.0.0-brightgreen">
 
 check with: `node -v` & `homebridge -V` and update if needed
 
 # Installation
 
-This plugin  can be easily installed and configured through Homebridge/Hoobs UI.
+Search for `@timson81/homebridge-tami4` in the Homebridge UI to install and configure this fork.
 
 **To use this plugin you must provide initial ** `refreshToken` ** which can be obtain ~~in 2 different ways~~ only through homebridge UI:
 
@@ -33,11 +35,11 @@ This plugin  can be easily installed and configured through Homebridge/Hoobs UI.
 ---------
 
 1. Install homebridge using: `sudo npm install -g homebridge --unsafe-perm`
-2. Install this plugin using: `sudo npm install -g homebridge-tami4`
+2. Install this plugin using: `sudo npm install -g @timson81/homebridge-tami4`
 3. ~~Run the command `tami4-extract` in terminal and follow instructions to extract token and imei.~~
 4. Update your configuration file. See `config-sample.json` in this repository for a sample.
 
-\* install from git: `sudo npm install -g git+https://github.com/nitaybz/homebridge-tami4.git`
+\* install from git: `sudo npm install -g git+https://github.com/timson/homebridge-tami4.git`
 
 ## Config file
 
@@ -71,7 +73,7 @@ If that doesn't help, turn on debug logs in the plugin settings and look for err
 
 #### others
 
-If you experience any issues with the plugins please refer to the [Issues](https://github.com/nitaybz/homebridge-tami4/issues) tab and check if your issue is already described there, if it doesn't, please create a new issue with as much detailed information as you can give (logs are crucial).<br>
+If you experience any issues with the plugins please refer to the [Issues](https://github.com/timson/homebridge-tami4/issues) tab and check if your issue is already described there, if it doesn't, please create a new issue with as much detailed information as you can give (logs are crucial).<br>
 
 if you want to even speed up the process, you can add `"debug": true` to your config, which will give me more details on the logs and speed up fixing the issue.
 

@@ -1,10 +1,10 @@
 {
-  "name": "homebridge-tami4",
-  "description": "Homebridge Plugin for Tami4 Edge+ Device (Water Purifier)",
-  "version": "1.4.4",
+  "name": "@timson81/homebridge-tami4",
+  "description": "Homebridge Plugin for Tami4 Edge+ Device (Water Purifier), maintained fork by timson81",
+  "version": "1.4.5",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nitaybz/homebridge-tami4.git"
+    "url": "git+https://github.com/timson/homebridge-tami4.git"
   },
   "license": "GPL-3.0-or-later",
   "preferGlobal": true,
@@ -15,7 +15,7 @@
     "smart-water"
   ],
   "bugs": {
-    "url": "https://github.com/nitaybz/homebridge-tami4/issues"
+    "url": "https://github.com/timson/homebridge-tami4/issues"
   },
   "engines": {
     "node": "^22.10.0 || ^24.0.0",
@@ -34,6 +34,10 @@
     "lint:fix": "eslint . --fix",
     "test": "node --test"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "funding": [
     {
       "type": "paypal",
@@ -48,7 +52,7 @@
       "url": "https://ko-fi.com/nitaybz"
     }
   ],
-  "homepage": "https://github.com/nitaybz/homebridge-tami4#readme",
+  "homepage": "https://github.com/timson/homebridge-tami4#readme",
   "main": "index.js",
   "author": "nitaybz"
 }
