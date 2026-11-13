@@ -3,6 +3,11 @@
     "pluginType": "platform",
     "singular": true,
     "customUi": true,
+    "customUiCspDomains": [
+        "https://www.google.com",
+        "https://www.gstatic.com",
+        "https://recaptcha.google.com"
+    ],
     "headerDisplay": "Homebridge Plugin for Tami4 Edge Device (Water Purifier)",
     "footerDisplay": "Created by @nitaybz",
     "schema": {

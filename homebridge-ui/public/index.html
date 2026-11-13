@@ -50,6 +50,26 @@
 <script>
   let pluginConfig
 
+  async function getRecaptchaToken() {
+    const loadError = 'reCAPTCHA could not load. Allow www.google.com and www.gstatic.com in your browser and network, then reopen the plugin settings.';
+    if (!window.grecaptcha || typeof window.grecaptcha.ready !== 'function') {
+      throw new Error(loadError);
+    }
+
+    let timeout;
+    try {
+      return await Promise.race([
+        new Promise((resolve) => window.grecaptcha.ready(resolve))
+          .then(() => window.grecaptcha.execute('6Lf-jYgUAAAAAEQiRRXezC9dfIQoxofIhqBnGisq', { action: 'login' })),
+        new Promise((resolve, reject) => {
+          timeout = setTimeout(() => reject(new Error(loadError)), 15000);
+        })
+      ]);
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
   (async () => {
     // get the initial config - this is an array potentially containing multiple config blocks
     pluginConfig = await homebridge.getPluginConfig();
@@ -89,7 +109,9 @@
   // startOver
   document.getElementById('startOver').addEventListener('click', async () => {
     document.getElementById('setupRequired').style.display = 'block';
+    document.getElementById('step1').style.display = 'block';
     document.getElementById('step2').style.display = 'none';
+    document.getElementById('otpInput').value = '';
     document.getElementById('setupComplete').style.display = 'none';
   });
 
@@ -106,22 +128,14 @@
 
     try {
       homebridge.showSpinner()
-      grecaptcha.ready(() => {
-        grecaptcha
-          .execute('6Lf-jYgUAAAAAEQiRRXezC9dfIQoxofIhqBnGisq', {
-            action: 'login'
-          })
-          .then(async (token) => {
-            await homebridge.request('/request-otp', { phone: phoneValue, token });
-            homebridge.hideSpinner()
-            document.getElementById('step1').style.display = 'none';
-            document.getElementById('step2').style.display = 'block';
-            document.getElementById('step1Submit').removeAttribute('disabled');
-          });
-      });
+      const token = await getRecaptchaToken();
+      await homebridge.request('/request-otp', { phone: phoneValue, token });
+      document.getElementById('step1').style.display = 'none';
+      document.getElementById('step2').style.display = 'block';
     } catch (e) {
+      homebridge.toast.error(e.error || e.message, 'Error');
+    } finally {
       homebridge.hideSpinner()
-      homebridge.toast.error(e.message, 'Error');
       document.getElementById('step1Submit').removeAttribute('disabled');
     }
 
@@ -141,34 +155,24 @@
 
     try {
       homebridge.showSpinner()
-      grecaptcha.ready(() => {
-        grecaptcha
-          .execute('6Lf-jYgUAAAAAEQiRRXezC9dfIQoxofIhqBnGisq', {
-            action: 'login'
-          })
-          .then(async (token) => {
-            const response = await homebridge.request('/check-otp', { phone: phoneValue, code: otpValue, token });
+      const token = await getRecaptchaToken();
+      const response = await homebridge.request('/check-otp', { phone: phoneValue, code: otpValue, token });
 
-            if (!response.refreshToken)
-              throw new Error('No Refresh Token', response)
+      if (!response.refreshToken)
+        throw new Error('No Refresh Token')
 
-            // update the config
-            pluginConfig[0].refreshToken = response.refreshToken;
-            // update the config
-            await homebridge.updatePluginConfig(pluginConfig);
-            homebridge.showSchemaForm();
+      pluginConfig[0].refreshToken = response.refreshToken;
+      await homebridge.updatePluginConfig(pluginConfig);
+      homebridge.showSchemaForm();
 
-            document.getElementById('step2').style.display = 'none';
-            document.getElementById('setupRequired').style.display = 'none';
-            document.getElementById('setupComplete').style.display = 'block';
-            homebridge.hideSpinner()
-            document.getElementById('step2Submit').removeAttribute('disabled');
-          });
-      });
+      document.getElementById('step2').style.display = 'none';
+      document.getElementById('setupRequired').style.display = 'none';
+      document.getElementById('setupComplete').style.display = 'block';
 
     } catch (e) {
-      homebridge.hideSpinner()
       homebridge.toast.error(e.error || e.message, 'Error');
+    } finally {
+      homebridge.hideSpinner()
       document.getElementById('step2Submit').removeAttribute('disabled');
     }
 
